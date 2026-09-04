@@ -3,134 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fameszulia - Portal Web</title>
+    <title>Fameszulia - Portal Oficial</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background-color: #f4f6f9;
             color: #333;
+        }
+        /* BARRA DE NAVEGACIÓN SUPERIOR */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
+            padding: 15px 30px;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 { color: #2c3e50; font-size: 1.6rem; margin-bottom: 10px; }
-        p { color: #666; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
-        
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            color: #555;
-            margin-bottom: 5px;
+        .logo-text {
             font-weight: bold;
+            font-size: 1.2rem;
+            color: #1b365d;
         }
-        input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
+        nav {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
         }
-        input:focus {
-            border-color: #3498db;
-        }
-        .btn {
-            width: 100%;
-            background-color: #3498db;
-            color: white;
-            padding: 12px;
+        nav button {
+            background: none;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
+            color: #555;
             cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 10px;
+            padding: 5px 10px;
+            transition: color 0.3s;
+            white-space: nowrap;
         }
-        .btn:hover { background-color: #2980b9; }
-        
-        #dashboard {
+        nav button:hover, nav button.active {
+            color: #1b365d;
+            border-bottom: 2px solid #1b365d;
+        }
+
+        /* CONTENIDO DE LAS SECCIONES */
+        .section-content {
             display: none;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s ease-in-out;
         }
-        .welcome-msg {
-            color: #27ae60;
-            font-weight: bold;
-            margin-bottom: 15px;
+        .section-content.active {
+            display: block;
         }
-        .logout-btn {
-            background-color: #e74c3c;
-            margin-top: 15px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .logout-btn:hover { background-color: #c0392b; }
+
+        /* ESTILO TIPO BANNER PARA INICIO */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 15px; text-transform: uppercase; }
+        .hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* TARJETAS DE INFORMACIÓN GENERAL */
+        .card-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .card-box h2 { color: #1b365d; margin-bottom: 15px; font-size: 1.5rem; }
+        .card-box p { line-height: 1.6; color: #666; margin-bottom: 10px; }
+
+        /* RESPONSIVO MÓVIL */
+        @media(max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; padding: 15px; }
+            nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
+            .hero h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div id="login-section">
-            <h1>Fameszulia</h1>
-            <p>Ingresa tus datos para acceder al portal</p>
-            
-            <div class="input-group">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" placeholder="Ej. admin">
-            </div>
-            
-            <div class="input-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" placeholder="********">
-            </div>
-            
-            <button class="btn" onclick="iniciarSesion()">Entrar</button>
-            <p id="error-msg" style="color: #e74c3c; font-size: 0.85rem; margin-top: 10px; display: none;">Usuario o contraseña incorrectos</p>
-        </div>
+    <!-- MENÚ SUPERIOR -->
+    <header>
+        <div class="logo-text">FAMESZULIA</div>
+        <nav>
+            <button onclick="cambiarSeccion('inicio', this)" class="active">INICIO</button>
+            <button onclick="cambiarSeccion('quienes', this)">QUIÉNES SOMOS</button>
+            <button onclick="cambiarSeccion('noticias', this)">NOTICIAS</button>
+            <button onclick="cambiarSeccion('multimedia', this)">MULTIMEDIA</button>
+            <button onclick="cambiarSeccion('entes', this)">ENTES</button>
+        </nav>
+    </header>
 
-        <div id="dashboard">
-            <h1>¡Bienvenido al Sistema!</h1>
-            <p class="welcome-msg">Has iniciado sesión correctamente en Fameszulia.</p>
-            <p>Aquí puedes mostrar contenido exclusivo, herramientas o reportes para tu equipo y usuarios autorizados.</p>
-            <button class="btn logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+    <!-- SECCIÓN 1: INICIO -->
+    <section id="inicio" class="section-content active">
+        <div class="hero">
+            <h1>Impulsa tu futuro hoy</h1>
+            <p>Portal oficial de atención, bienestar y desarrollo social para nuestra comunidad.</p>
         </div>
-    </div>
+    </section>
+
+    <!-- SECCIÓN 2: QUIÉNES SOMOS -->
+    <section id="quienes" class="section-content">
+        <div class="card-box">
+            <h2>¿Quiénes Somos?</h2>
+            <p>Somos el organismo regional comprometido con el bienestar social, la salud integral y el respaldo directo a nuestra población.</p>
+            <p>Trabajamos articuladamente para garantizar programas de atención eficientes, transparentes y de respuesta inmediata.</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: NOTICIAS -->
+    <section id="noticias" class="section-content">
+        <div class="card-box">
+            <h2>Últimas Noticias</h2>
+            <p><strong>Desplegados en jornadas de atención:</strong> Este fin de semana se llevaron a cabo operativos integrales de salud y asistencia social en distintas parroquias.</p>
+            <p><strong>Nuevas alianzas estratégicas:</strong> Se consolidaron acuerdos para expandir la cobertura de beneficios y planes de desarrollo.</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: MULTIMEDIA -->
+    <section id="multimedia" class="section-content">
+        <div class="card-box">
+            <h2>Galería Multimedia</h2>
+            <p>Próximamente encontrarás aquí los mejores momentos en fotografías, resúmenes en video de nuestras jornadas y material descargable oficial.</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 5: ENTES -->
+    <section id="entes" class="section-content">
+        <div class="card-box">
+            <h2>Entes Vinculados</h2>
+            <p>Conoce las instituciones, coordinaciones y organizaciones aliadas que forman parte de nuestra red de trabajo en el estado Zulia.</p>
+        </div>
+    </section>
 
     <script>
-        function iniciarSesion() {
-            var user = document.getElementById('username').value;
-            var pass = document.getElementById('password').value;
-            
-            // Puedes cambiar aquí el usuario y la contraseña que prefieras
-            if (user === "admin" && pass === "1234") {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }
+        function cambiarSeccion(idSeccion, botonAccion) {
+            // Ocultar todas las secciones
+            const secciones = document.querySelectorAll('.section-content');
+            secciones.forEach(sec => sec.classList.remove('active'));
 
-        function cerrarSesion() {
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('error-msg').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('login-section').style.display = 'block';
+            // Quitar la clase active de todos los botones
+            const botones = document.querySelectorAll('nav button');
+            botones.forEach(btn => btn.classList.remove('active'));
+
+            // Mostrar la sección seleccionada y activar el botón
+            document.getElementById(idSeccion).classList.add('active');
+            botonAccion.classList.add('active');
         }
     </script>
 
