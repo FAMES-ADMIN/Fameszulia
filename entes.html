@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fameszulia - Entes</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+        header {
+            background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 30px;
+        }
+        .logo-text { font-weight: bold; font-size: 1.2rem; color: #1b365d; }
+        nav { display: flex; gap: 15px; overflow-x: auto; align-items: center; }
+        nav a {
+            background: none; border: none; font-size: 0.9rem; font-weight: bold;
+            color: #555; cursor: pointer; padding: 5px 10px; text-decoration: none;
+            transition: color 0.3s; white-space: nowrap;
+        }
+        nav a:hover, nav a.active { color: #1b365d; border-bottom: 2px solid #1b365d; }
+        .portal-link {
+            background-color: #1b365d !important; color: white !important;
+            padding: 8px 15px !important; border-radius: 6px;
+        }
+        .portal-link:hover { background-color: #2c4d7e !important; border: none !important; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .card-box {
+            background: white; padding: 30px; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .card-box h2 { color: #1b365d; margin-bottom: 15px; font-size: 1.8rem; }
+        .card-box p { line-height: 1.6; color: #666; margin-bottom: 15px; }
+
+        @media(max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; padding: 15px; }
+            nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">FAMESZULIA</div>
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="quienes.html">QUIÉNES SOMOS</a>
+            <a href="noticias.html">NOTICIAS</a>
+            <a href="multimedia.html">MULTIMEDIA</a>
+            <a href="entes.html" class="active">ENTES</a>
+            <a href="atencion.html">ATENCIÓN AL USUARIO</a>
+            <a href="gestion.html" class="portal-link">PORTAL DE GESTIÓN</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card-box">
+            <h2>Entes Vinculados</h2>
+            <p>Conoce las instituciones, coordinaciones regionales y organizaciones aliadas que integran nuestra red de trabajo articulado en el estado Zulia.</p>
+        </div>
+    </div>
+
+</body>
+</html>
