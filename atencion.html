@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fameszulia - Atención al Usuario</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+        header {
+            background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 30px;
+        }
+        .logo-text { font-weight: bold; font-size: 1.2rem; color: #1b365d; }
+        nav { display: flex; gap: 15px; overflow-x: auto; align-items: center; }
+        nav a {
+            background: none; border: none; font-size: 0.9rem; font-weight: bold;
+            color: #555; cursor: pointer; padding: 5px 10px; text-decoration: none;
+            transition: color 0.3s; white-space: nowrap;
+        }
+        nav a:hover, nav a.active { color: #1b365d; border-bottom: 2px solid #1b365d; }
+        .portal-link {
+            background-color: #1b365d !important; color: white !important;
+            padding: 8px 15px !important; border-radius: 6px;
+        }
+        .portal-link:hover { background-color: #2c4d7e !important; border: none !important; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .card-box {
+            background: white; padding: 30px; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .card-box h2 { color: #1b365d; margin-bottom: 10px; font-size: 1.8rem; }
+        .card-box p { line-height: 1.6; color: #666; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: bold; color: #555; margin-bottom: 5px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #1b365d; }
+        .btn-enviar {
+            background-color: #1b365d; color: white; border: none; padding: 12px 20px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.3s;
+        }
+        .btn-enviar:hover { background-color: #2c4d7e; }
+
+        @media(max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; padding: 15px; }
+            nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">FAMESZULIA</div>
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="quienes.html">QUIÉNES SOMOS</a>
+            <a href="noticias.html">NOTICIAS</a>
+            <a href="multimedia.html">MULTIMEDIA</a>
+            <a href="entes.html">ENTES</a>
+            <a href="atencion.html" class="active">ATENCIÓN AL USUARIO</a>
+            <a href="gestion.html" class="portal-link">PORTAL DE GESTIÓN</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card-box">
+            <h2>Atención al Usuario</h2>
+            <p>Este espacio público está abierto para toda la comunidad. Si tienes alguna consulta, solicitud general o requieres asistencia, completa el formulario y con gusto te atenderemos.</p>
+            
+            <div class="form-group">
+                <label>Nombre y Apellido</label>
+                <input type="text" placeholder="Ej. Carlos Pérez">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico o Teléfono</label>
+                <input type="text" placeholder="Ej. correo@ejemplo.com / 0414-0000000">
+            </div>
+            <div class="form-group">
+                <label>Mensaje o Solicitud</label>
+                <textarea rows="4" placeholder="Escribe tu requerimiento aquí..."></textarea>
+            </div>
+            <button class="btn-enviar" onclick="alert('¡Solicitud enviada exitosamente! Nos pondremos en contacto pronto.')">Enviar Solicitud</button>
+        </div>
+    </div>
+
+</body>
+</html>
