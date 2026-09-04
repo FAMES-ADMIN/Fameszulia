@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fameszulia - Noticias</title>
+    <title>Fameszulia - Hemeroteca / Noticias</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
@@ -27,16 +27,97 @@
         }
         .portal-link:hover { background-color: #2c4d7e !important; border: none !important; }
 
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .card-box {
-            background: white; padding: 30px; border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;
+        /* CONTENEDOR GENERAL */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        
+        /* CABECERA DE HEMEROTECA */
+        .hem-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;
         }
-        .card-box h2 { color: #1b365d; margin-bottom: 15px; font-size: 1.8rem; }
-        .news-item h3 { color: #2c4d7e; margin-bottom: 8px; font-size: 1.2rem; }
-        .news-item p { line-height: 1.6; color: #666; margin-bottom: 15px; }
+        .hem-header h1 { color: #1b365d; font-size: 2.2rem; text-transform: uppercase; margin-bottom: 5px; }
+        .hem-header p { color: #666; font-size: 0.95rem; }
+        .select-orden {
+            padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;
+            background: white; font-size: 0.9rem; color: #333; outline: none; cursor: pointer;
+        }
 
-        @media(max-width: 768px) {
+        /* DISEÑO DE DOS COLUMNAS (NOTICIAS + SIDEBAR) */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* TARJETAS DE NOTICIAS */
+        .news-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;
+            display: flex; flex-direction: column; transition: transform 0.3s ease;
+        }
+        .news-card:hover { transform: translateY(-4px); }
+        .news-img {
+            width: 100%; height: 220px; object-fit: cover; background-color: #cbd5e1;
+        }
+        .news-body { padding: 20px; }
+        .badge {
+            display: inline-block; background-color: #e0f2fe; color: #0369a1;
+            font-size: 0.75rem; font-weight: bold; padding: 4px 10px;
+            border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;
+        }
+        .news-title {
+            color: #1b365d; font-size: 1.3rem; margin-bottom: 10px; line-height: 1.4;
+            cursor: pointer; text-decoration: none; display: block;
+        }
+        .news-title:hover { color: #2c4d7e; text-decoration: underline; }
+        .news-date { font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px; }
+        .news-snippet { font-size: 0.95rem; color: #555; line-height: 1.6; }
+
+        /* SIDEBAR (FILTROS Y RECIENTES) */
+        .sidebar-box {
+            background: white; border-radius: 12px; padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;
+        }
+        .sidebar-title {
+            color: #1b365d; font-size: 1.1rem; font-weight: bold;
+            margin-bottom: 15px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
+        }
+        .filter-list { list-style: none; }
+        .filter-list li {
+            padding: 8px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 0.9rem; color: #475569; margin-bottom: 5px; transition: background 0.2s;
+        }
+        .filter-list li:hover, .filter-list li.active {
+            background-color: #1b365d; color: white;
+        }
+        .recent-item {
+            margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9;
+        }
+        .recent-item:last-child { margin-bottom: 0; padding-bottom: 0; border: none; }
+        .recent-item a {
+            font-size: 0.9rem; color: #1b365d; text-decoration: none; font-weight: bold;
+            display: block; margin-bottom: 4px; line-height: 1.3;
+        }
+        .recent-item a:hover { text-decoration: underline; }
+        .recent-date { font-size: 0.75rem; color: #94a3b8; }
+
+        /* VISTA DETALLE DE NOTICIA (OCULTA POR DEFECTO) */
+        #detalle-noticia { display: none; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-volver {
+            background: none; border: none; color: #1b365d; font-weight: bold;
+            cursor: pointer; font-size: 0.9rem; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .btn-volver:hover { text-decoration: underline; }
+        .detail-title { color: #1b365d; font-size: 1.8rem; margin-bottom: 10px; line-height: 1.3; }
+        .detail-meta { font-size: 0.85rem; color: #64748b; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+        .detail-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
+        .detail-content p { font-size: 1rem; color: #475569; line-height: 1.8; margin-bottom: 15px; }
+
+        /* RESPONSIVO */
+        @media(max-width: 900px) {
+            .layout-grid { grid-template-columns: 1fr; }
+            .hem-header { flex-direction: column; align-items: flex-start; gap: 15px; }
             header { flex-direction: column; align-items: flex-start; padding: 15px; }
             nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
         }
@@ -58,19 +139,146 @@
     </header>
 
     <div class="container">
-        <div class="card-box">
-            <h2>Últimas Noticias</h2>
-            <div class="news-item">
-                <h3>Despliegue exitoso en jornadas de atención social</h3>
-                <p>Durante este fin de semana se llevaron a cabo operativos integrales de asistencia médica y social, beneficiando a cientos de familias en distintas parroquias de la región.</p>
+        
+        <!-- VISTA LISTADO (HEMEROTECA) -->
+        <div id="vista-listado">
+            <div class="hem-header">
+                <div>
+                    <h1>Hemeroteca</h1>
+                    <p>Mantente informado sobre los proyectos, jornadas y avances de Fames Zulia.</p>
+                </div>
+                <select class="select-orden">
+                    <option>Más recientes primero</option>
+                    <option>Más antiguos primero</option>
+                </select>
             </div>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-            <div class="news-item">
-                <h3>Nuevas alianzas estratégicas institucionales</h3>
-                <p>Se consolidaron acuerdos clave orientados a expandir la cobertura de programas de bienestar y desarrollo para la comunidad zuliana.</p>
+
+            <div class="layout-grid">
+                <!-- COLUMNA CENTRAL: NOTICIAS -->
+                <div class="news-list">
+                    
+                    <!-- Noticia 1 -->
+                    <div class="news-card">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Jornada de salud" class="news-img">
+                        <div class="news-body">
+                            <span class="badge">Salud Integral</span>
+                            <a class="news-title" onclick="verDetalle('noticia-1')">Despliegue exitoso de atención médica y social en comunidades zulianas</a>
+                            <div class="news-date">21 de Julio de 2026</div>
+                            <p class="news-snippet">Durante este fin de semana, equipos multidisciplinarios se desplegaron para brindar asistencia médica directa, despistaje y entrega de insumos a familias de la región...</p>
+                        </div>
+                    </div>
+
+                    <!-- Noticia 2 -->
+                    <div class="news-card">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Alianzas universitarias" class="news-img">
+                        <div class="news-body">
+                            <span class="badge">Educación</span>
+                            <a class="news-title" onclick="verDetalle('noticia-2')">Fames Zulia consolida nuevas alianzas estratégicas con universidades de la región</a>
+                            <div class="news-date">12 de Junio de 2026</div>
+                            <p class="news-snippet">Se establecieron mesas de trabajo orientadas a optimizar los canales de cobertura y respuesta socio-sanitaria para la población estudiantil universitaria...</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- COLUMNA LATERAL (SIDEBAR) -->
+                <aside class="sidebar">
+                    <!-- Filtrar por tema -->
+                    <div class="sidebar-box">
+                        <div class="sidebar-title">📁 Filtrar por tema</div>
+                        <ul class="filter-list">
+                            <li class="active">Todas las Noticias</li>
+                            <li>Salud Integral</li>
+                            <li>Educación</li>
+                            <li>Jornadas Sociales</li>
+                            <li>Comunicados</li>
+                        </ul>
+                    </div>
+
+                    <!-- Recientes -->
+                    <div class="sidebar-box">
+                        <div class="sidebar-title">⏱️ Recientes</div>
+                        <div class="recent-item">
+                            <a onclick="verDetalle('noticia-1')" style="cursor: pointer;">Despliegue exitoso de atención médica y social en comunidades zulianas</a>
+                            <div class="recent-date">21/07/2026</div>
+                        </div>
+                        <div class="recent-item">
+                            <a onclick="verDetalle('noticia-2')" style="cursor: pointer;">Fames Zulia consolida nuevas alianzas estratégicas con universidades</a>
+                            <div class="recent-date">12/06/2026</div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
+
+        <!-- VISTA DETALLE (SE OCULTA HASTA HACER CLIC EN UNA NOTICIA) -->
+        <div id="detalle-noticia">
+            <button class="btn-volver" onclick="volverListado()">← Volver a Noticias</button>
+            <h1 class="detail-title" id="det-titulo">Título de la Noticia</h1>
+            <div class="detail-meta" id="det-meta">Publicado el 21 de julio de 2026 - Por Coord. Fames</div>
+            <span class="badge" id="det-badge">Categoría</span>
+            <img src="" alt="Imagen detalle" class="detail-img" id="det-img">
+            <div class="detail-content" id="det-texto">
+                <!-- Párrafos dinámicos -->
+            </div>
+        </div>
+
     </div>
 
+    <script>
+        // Base de datos simulada de noticias (aquí se conectará en el futuro el usuario Coord. Fames)
+        const baseNoticias = {
+            'noticia-1': {
+                titulo: "Despliegue exitoso de atención médica y social en comunidades zulianas",
+                fecha: "Publicado el 21 de Julio de 2026 - Por Coord. Fames",
+                categoria: "Salud Integral",
+                imagen: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+                parrafos: [
+                    "Durante este fin de semana, equipos multidisciplinarios de Fames Zulia se desplegaron de manera permanente para brindar asistencia médica directa, consultas preventivas y entrega de medicamentos a familias de la región.",
+                    "La jornada contempló atención en distintas especialidades primarias, beneficiando a cientos de ciudadanos y fortaleciendo el radio de acción social instruido por las políticas de bienestar estudiantil y comunitario.",
+                    "Asimismo, se habilitaron puntos de orientación y captación de solicitudes generales para dar respuesta oportuna a los requerimientos de la comunidad. Estas acciones reafirman el compromiso de la institución con el territorio zuliano."
+                ]
+            },
+            'noticia-2': {
+                titulo: "Fames Zulia consolida nuevas alianzas estratégicas con universidades de la región",
+                fecha: "Publicado el 12 de Junio de 2026 - Por Coord. Fames",
+                categoria: "Educación",
+                imagen: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
+                parrafos: [
+                    "Con el propósito de seguir expandiendo la red de cobertura y previsión social, se establecieron mesas de trabajo interinstitucionales con autoridades universitarias del estado Zulia.",
+                    "Durante el encuentro se evaluaron los mecanismos de registro, optimización de canales de respuesta rápida y el fortalecimiento de los programas de atención integral dirigidos a los jóvenes universitarios.",
+                    "Con estas alianzas se consolida un frente unificado que garantiza mayor alcance y eficacia en la ejecución de los beneficios socio-sanitarios previstos para el período académico actual."
+                ]
+            }
+        };
+
+        function verDetalle(id) {
+            const noticia = baseNoticias[id];
+            if (!noticia) return;
+
+            document.getElementById('det-titulo').innerText = noticia.titulo;
+            document.getElementById('det-meta').innerText = noticia.fecha;
+            document.getElementById('det-badge').innerText = noticia.categoria;
+            document.getElementById('det-img').src = noticia.imagen;
+            
+            let contenedorTexto = document.getElementById('det-texto');
+            contenedorTexto.innerHTML = '';
+            noticia.parrafos.forEach(p => {
+                let parrafoElem = document.createElement('p');
+                parrafoElem.innerText = p;
+                contenedorTexto.appendChild(parrafoElem);
+            });
+
+            document.getElementById('vista-listado').style.display = 'none';
+            document.getElementById('detalle-noticia').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function volverListado() {
+            document.getElementById('detalle-noticia').style.display = 'none';
+            document.getElementById('vista-listado').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
