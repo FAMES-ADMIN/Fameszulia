@@ -7,6 +7,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+        
         header {
             background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky; top: 0; z-index: 1000;
@@ -14,7 +15,8 @@
             padding: 15px 30px;
         }
         .logo-text { font-weight: bold; font-size: 1.2rem; color: #1b365d; }
-        nav { display: flex; gap: 15px; overflow-x: auto; align-items: center; }
+        
+        nav { display: flex; gap: 15px; align-items: center; }
         nav a {
             background: none; border: none; font-size: 0.9rem; font-weight: bold;
             color: #555; cursor: pointer; padding: 5px 10px; text-decoration: none;
@@ -25,19 +27,39 @@
             background-color: #1b365d !important; color: white !important;
             padding: 8px 15px !important; border-radius: 6px;
         }
-        .portal-link:hover { background-color: #2c4d7e !important; border: none !important; }
+        .portal-link:hover { background-color: #2c4d7e !important; }
 
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .card-box {
-            background: white; padding: 30px; border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 1.8rem;
+            color: #1b365d; cursor: pointer;
         }
-        .card-box h2 { color: #1b365d; margin-bottom: 15px; font-size: 1.8rem; }
-        .card-box p { line-height: 1.6; color: #666; margin-bottom: 15px; }
 
-        @media(max-width: 768px) {
-            header { flex-direction: column; align-items: flex-start; padding: 15px; }
-            nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #1b365d; font-size: 2rem; margin-bottom: 10px; }
+        p.subtitle { color: #666; margin-bottom: 30px; }
+
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+        }
+        .media-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding-bottom: 15px;
+        }
+        .media-img { width: 100%; height: 200px; object-fit: cover; background: #cbd5e1; }
+        .media-body { padding: 15px; }
+        .media-body h3 { color: #1b365d; font-size: 1.1rem; margin-bottom: 8px; }
+        .media-body p { color: #555; font-size: 0.9rem; }
+
+        @media(max-width: 900px) {
+            .menu-toggle { display: block; }
+            nav {
+                display: none; position: absolute; top: 70px; left: 0; width: 100%;
+                background-color: white; flex-direction: column; align-items: flex-start;
+                padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); gap: 15px;
+            }
+            nav.open { display: flex; }
+            nav a { width: 100%; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+            nav a.portal-link { text-align: center; border-bottom: none; }
         }
     </style>
 </head>
@@ -45,7 +67,8 @@
 
     <header>
         <div class="logo-text">FAMESZULIA</div>
-        <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu">
             <a href="index.html">INICIO</a>
             <a href="quienes.html">QUIÉNES SOMOS</a>
             <a href="noticias.html">NOTICIAS</a>
@@ -57,12 +80,31 @@
     </header>
 
     <div class="container">
-        <div class="card-box">
-            <h2>Galería Multimedia</h2>
-            <p>Explora los registros fotográficos, videos institucionales y material descargable de las actividades desarrolladas en nuestras comunidades.</p>
-            <p style="color: #888; font-style: italic;">Próximamente más galerías actualizadas.</p>
+        <h1>Galería Multimedia</h1>
+        <p class="subtitle">Registro fotográfico y audiovisual de nuestras jornadas y despliegues en el Estado Zulia.</p>
+
+        <div class="gallery-grid">
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80" alt="Jornada" class="media-img">
+                <div class="media-body">
+                    <h3>Jornada Médica Comunitaria</h3>
+                    <p>Despliegue operativo de atención primaria en sectores vulnerables.</p>
+                </div>
+            </div>
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" alt="Revisión" class="media-img">
+                <div class="media-body">
+                    <h3>Revisión de Casos Clínicos</h3>
+                    <p>Evaluación especializada de expedientes por parte del equipo médico.</p>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav-menu').classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
