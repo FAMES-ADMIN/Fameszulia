@@ -8,10 +8,12 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; display: flex; height: 100vh; overflow: hidden; }
         
+        /* BARRA LATERAL (SIDEBAR ADMIN) */
         aside {
             width: 280px; background-color: #1b365d; color: white;
             display: flex; flex-direction: column; justify-content: space-between;
             box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 100;
+            transition: transform 0.3s ease;
         }
         .sidebar-brand { padding: 25px 20px; font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-brand span { display: block; font-size: 0.75rem; color: #94a3b8; font-weight: normal; margin-top: 5px; }
@@ -28,14 +30,22 @@
         }
         .btn-logout:hover { background-color: #dc2626; }
 
+        /* CONTENIDO PRINCIPAL */
         main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
         
         topbar {
             background: white; padding: 15px 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex; justify-content: space-between; align-items: center;
         }
+        .topbar-left { display: flex; align-items: center; gap: 15px; }
         .topbar-title { font-size: 1.2rem; color: #1b365d; font-weight: bold; }
         .user-info { font-size: 0.9rem; color: #64748b; background: #f1f5f9; padding: 6px 12px; border-radius: 20px; }
+
+        /* BOTÓN HAMBURGUESA PARA EL PANEL (OCULTO EN PC) */
+        .admin-menu-toggle {
+            display: none; background: none; border: none; font-size: 1.8rem;
+            color: #1b365d; cursor: pointer;
+        }
 
         .content-area { padding: 30px; max-width: 1300px; margin: 0 auto; width: 100%; }
         .admin-section { display: none; }
@@ -45,9 +55,7 @@
         .stat-card {
             background: white; padding: 20px; border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.05); border-top: 4px solid #1b365d;
-            transition: transform 0.3s;
         }
-        .stat-card:hover { transform: translateY(-5px); }
         .stat-card h3 { font-size: 0.9rem; color: #64748b; margin-bottom: 8px; }
         .stat-card .number { font-size: 1.8rem; font-weight: bold; color: #1b365d; }
 
@@ -67,26 +75,38 @@
         .form-group label { display: block; font-size: 0.9rem; font-weight: bold; color: #334155; margin-bottom: 6px; }
         .form-control {
             width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px;
-            font-size: 0.95rem; outline: none; background: #fff; transition: border-color 0.2s;
+            font-size: 0.95rem; outline: none; background: #fff;
         }
         .form-control:focus { border-color: #1b365d; }
         textarea.form-control { resize: vertical; height: 120px; }
         
         .btn-primary {
             background-color: #1b365d; color: white; border: none; padding: 10px 20px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem; transition: background 0.2s;
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;
         }
         .btn-primary:hover { background-color: #2c4d7e; }
         .btn-danger {
             background-color: #ef4444; color: white; border: none; padding: 6px 12px;
-            border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: background 0.2s;
+            border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem;
         }
         .btn-danger:hover { background-color: #dc2626; }
+
+        /* RESPONSIVO PARA MÓVILES */
+        @media(max-width: 768px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            aside {
+                position: fixed; left: -280px; top: 0; height: 100%; width: 280px; z-index: 1000;
+                transition: left 0.3s ease;
+            }
+            aside.mobile-open { left: 0; }
+            .admin-menu-toggle { display: block; }
+            main { height: auto; overflow: visible; width: 100%; }
+        }
     </style>
 </head>
 <body>
 
-    <aside>
+    <aside id="admin-sidebar">
         <div>
             <div class="sidebar-brand">
                 PORTAL DE GESTIÓN
@@ -107,13 +127,15 @@
 
     <main>
         <topbar>
-            <div class="topbar-title" id="topbar-title-text">Panel Principal de Control</div>
-            <div class="user-info">👤 Sesión Activa: Coord. Fames</div>
+            <div class="topbar-left">
+                <button class="admin-menu-toggle" onclick="toggleAdminSidebar()">☰</button>
+                <div class="topbar-title" id="topbar-title-text">Panel Principal de Control</div>
+            </div>
+            <div class="user-info">👤 Coord. Fames</div>
         </topbar>
 
         <div class="content-area">
             
-            <!-- MÓDULO 1: DASHBOARD -->
             <div id="section-dashboard" class="admin-section active">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -136,20 +158,17 @@
 
                 <div class="panel-box">
                     <h2>👋 ¡Bienvenido al Sistema de Control Institucional!</h2>
-                    <p>Desde este espacio protegido, el usuario administrador <strong>Coord. Fames</strong> gestiona en tiempo real el contenido público de la Hemeroteca, el estatus de solicitudes médicas y la programación institucional.</p>
+                    <p>Desde este espacio protegido, el usuario administrador <strong>Coord. Fames</strong> gestiona en tiempo real el contenido público de la Hemeroteca y las herramientas operativas.</p>
                 </div>
             </div>
 
-            <!-- MÓDULO 2: GESTIÓN DE NOTICIAS (AÑADIR Y ELIMINAR) -->
             <div id="section-noticias" class="admin-section">
                 <div class="panel-box">
                     <h2>📝 Crear y Publicar Nueva Noticia</h2>
-                    <p>Los datos ingresados aquí se sincronizarán de inmediato con la Hemeroteca pública.</p>
-                    
                     <form id="form-noticia">
                         <div class="form-group">
                             <label>Título de la Noticia</label>
-                            <input type="text" id="noticia-titulo" class="form-control" placeholder="Ej. Nueva jornada de atención integral..." required>
+                            <input type="text" id="noticia-titulo" class="form-control" placeholder="Ej. Nueva jornada..." required>
                         </div>
                         <div class="form-group">
                             <label>Categoría</label>
@@ -162,11 +181,11 @@
                         </div>
                         <div class="form-group">
                             <label>URL de la Imagen Destacada</label>
-                            <input type="url" id="noticia-imagen" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                            <input type="url" id="noticia-imagen" class="form-control" placeholder="https://..." required>
                         </div>
                         <div class="form-group">
-                            <label>Cuerpo / Párrafos Informativos (Separe párrafos con saltos de línea)</label>
-                            <textarea id="noticia-texto" class="form-control" placeholder="Redacte la información detallada..." required></textarea>
+                            <label>Cuerpo / Párrafos (Separe párrafos con saltos de línea)</label>
+                            <textarea id="noticia-texto" class="form-control" placeholder="Redacte la información..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary">Publicar Noticia en la Web</button>
                     </form>
@@ -174,7 +193,6 @@
 
                 <div class="panel-box">
                     <h2>📋 Listado y Administración de Noticias Publicadas</h2>
-                    <p>Aquí puedes visualizar todas las notas activas y eliminarlas si lo requieres.</p>
                     <table>
                         <thead>
                             <tr>
@@ -184,47 +202,25 @@
                                 <th>Acción</th>
                             </tr>
                         </thead>
-                        <tbody id="tabla-gestion-noticias">
-                            <!-- Se llena dinámicamente -->
-                        </tbody>
+                        <tbody id="tabla-gestion-noticias"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- MÓDULO 3: CONTROL DE SOLICITUDES -->
             <div id="section-solicitudes" class="admin-section">
                 <div class="panel-box">
                     <h2>📁 Seguimiento de Expedientes y Solicitudes Médicas</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cédula / Estudiante</th>
-                                <th>Universidad</th>
-                                <th>Tipo de Solicitud</th>
-                                <th>Estatus</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>V-28.456.123 - Juan Pérez</td>
-                                <td>Universidad del Zulia (LUZ)</td>
-                                <td>Asistencia Médica</td>
-                                <td><span style="color: #d97706; font-weight:bold;">Pendiente</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p>Módulo operativo para la revisión de casos universitarios.</p>
                 </div>
             </div>
 
-            <!-- MÓDULO 4: INVENTARIO -->
             <div id="section-inventario" class="admin-section">
                 <div class="panel-box">
                     <h2>📦 Control de Stock e Insumos Médicos</h2>
-                    <p>Stock general de medicamentos esenciales y kits de primeros auxilios.</p>
+                    <p>Registro de medicamentos y botiquines.</p>
                 </div>
             </div>
 
-            <!-- MÓDULO 5: AGENDA -->
             <div id="section-agenda" class="admin-section">
                 <div class="panel-box">
                     <h2>📅 Programación de Próximas Jornadas de Calle</h2>
@@ -236,38 +232,25 @@
     </main>
 
     <script>
-        // Obtener noticias de localStorage o inicializar con base por defecto
+        function toggleAdminSidebar() {
+            document.getElementById('admin-sidebar').classList.toggle('mobile-open');
+        }
+
         function obtenerNoticias() {
             let guardadas = localStorage.getItem('fames_noticias');
-            if (guardadas) {
-                return JSON.parse(guardadas);
-            } else {
-                let iniciales = [
-                    {
-                        id: 'noticia-1',
-                        titulo: "Despliegue exitoso de atención médica y social en comunidades zulianas",
-                        fecha: "21 de Julio de 2026",
-                        categoria: "Salud Integral",
-                        imagen: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
-                        parrafos: [
-                            "Durante este fin de semana, equipos multidisciplinarios de Fames Zulia se desplegaron de manera permanente para brindar asistencia médica directa, consultas preventivas y entrega de medicamentos a familias de la región.",
-                            "La jornada contempló atención en distintas especialidades primarias, beneficiando a cientos de ciudadanos y fortaleciendo el radio de acción social instruido por las políticas de bienestar estudiantil y comunitario."
-                        ]
-                    },
-                    {
-                        id: 'noticia-2',
-                        titulo: "Fames Zulia consolida nuevas alianzas estratégicas con universidades",
-                        fecha: "12 de Junio de 2026",
-                        categoria: "Educación",
-                        imagen: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
-                        parrafos: [
-                            "Con el propósito de seguir expandiendo la red de cobertura y previsión social, se establecieron mesas de trabajo interinstitucionales con autoridades universitarias del estado Zulia."
-                        ]
-                    }
-                ];
-                localStorage.setItem('fames_noticias', JSON.stringify(iniciales));
-                return iniciales;
-            }
+            if (guardadas) return JSON.parse(guardadas);
+            let iniciales = [
+                {
+                    id: 'noticia-1',
+                    titulo: "Despliegue exitoso de atención médica y social en comunidades zulianas",
+                    fecha: "21 de Julio de 2026",
+                    categoria: "Salud Integral",
+                    imagen: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+                    parrafos: ["Durante este fin de semana, equipos multidisciplinarios de Fames Zulia se desplegaron..."]
+                }
+            ];
+            localStorage.setItem('fames_noticias', JSON.stringify(iniciales));
+            return iniciales;
         }
 
         function renderTablaGestion() {
@@ -294,8 +277,6 @@
             let categoria = document.getElementById('noticia-categoria').value;
             let imagen = document.getElementById('noticia-imagen').value;
             let textoCrudo = document.getElementById('noticia-texto').value;
-            
-            // Separar párrafos por saltos de línea
             let parrafos = textoCrudo.split('\n').filter(p => p.trim() !== '');
 
             let f = new Date();
@@ -311,7 +292,7 @@
             };
 
             let noticias = obtenerNoticias();
-            noticias.unshift(nuevaNoticia); // Agregar al inicio
+            noticias.unshift(nuevaNoticia);
             localStorage.setItem('fames_noticias', JSON.stringify(noticias));
 
             alert('¡Noticia publicada con éxito!');
@@ -320,7 +301,7 @@
         });
 
         function eliminarNoticia(id) {
-            if (confirm('¿Estás seguro de que deseas eliminar esta noticia de la web pública?')) {
+            if (confirm('¿Deseas eliminar esta noticia?')) {
                 let noticias = obtenerNoticias();
                 let filtradas = noticias.filter(n => n.id !== id);
                 localStorage.setItem('fames_noticias', JSON.stringify(filtradas));
@@ -338,6 +319,9 @@
             menuItems.forEach(item => item.classList.remove('active'));
             elementoLi.classList.add('active');
 
+            // Cerrar menú lateral en móvil al hacer clic en una opción
+            document.getElementById('admin-sidebar').classList.remove('mobile-open');
+
             const titulos = {
                 'dashboard': 'Panel Principal de Control',
                 'noticias': 'Gestión y Publicación de Noticias',
@@ -348,7 +332,6 @@
             document.getElementById('topbar-title-text').innerText = titulos[moduloId];
         }
 
-        // Cargar tabla al iniciar
         renderTablaGestion();
     </script>
 </body>
