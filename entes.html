@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fameszulia - Entes</title>
+    <title>Fameszulia - Entes y Aliados</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+        
         header {
             background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky; top: 0; z-index: 1000;
@@ -14,7 +15,8 @@
             padding: 15px 30px;
         }
         .logo-text { font-weight: bold; font-size: 1.2rem; color: #1b365d; }
-        nav { display: flex; gap: 15px; overflow-x: auto; align-items: center; }
+        
+        nav { display: flex; gap: 15px; align-items: center; }
         nav a {
             background: none; border: none; font-size: 0.9rem; font-weight: bold;
             color: #555; cursor: pointer; padding: 5px 10px; text-decoration: none;
@@ -25,19 +27,31 @@
             background-color: #1b365d !important; color: white !important;
             padding: 8px 15px !important; border-radius: 6px;
         }
-        .portal-link:hover { background-color: #2c4d7e !important; border: none !important; }
+        .portal-link:hover { background-color: #2c4d7e !important; }
 
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .card-box {
-            background: white; padding: 30px; border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 1.8rem;
+            color: #1b365d; cursor: pointer;
         }
-        .card-box h2 { color: #1b365d; margin-bottom: 15px; font-size: 1.8rem; }
-        .card-box p { line-height: 1.6; color: #666; margin-bottom: 15px; }
 
-        @media(max-width: 768px) {
-            header { flex-direction: column; align-items: flex-start; padding: 15px; }
-            nav { margin-top: 15px; width: 100%; justify-content: flex-start; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .card h1 { color: #1b365d; font-size: 2rem; margin-bottom: 15px; }
+        .card p { color: #555; line-height: 1.7; font-size: 1rem; margin-bottom: 15px; }
+        
+        ul.entes-list { margin-top: 15px; padding-left: 20px; }
+        ul.entes-list li { font-size: 1.05rem; color: #334155; margin-bottom: 10px; line-height: 1.5; }
+
+        @media(max-width: 900px) {
+            .menu-toggle { display: block; }
+            nav {
+                display: none; position: absolute; top: 70px; left: 0; width: 100%;
+                background-color: white; flex-direction: column; align-items: flex-start;
+                padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); gap: 15px;
+            }
+            nav.open { display: flex; }
+            nav a { width: 100%; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+            nav a.portal-link { text-align: center; border-bottom: none; }
         }
     </style>
 </head>
@@ -45,7 +59,8 @@
 
     <header>
         <div class="logo-text">FAMESZULIA</div>
-        <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu">
             <a href="index.html">INICIO</a>
             <a href="quienes.html">QUIÉNES SOMOS</a>
             <a href="noticias.html">NOTICIAS</a>
@@ -57,11 +72,22 @@
     </header>
 
     <div class="container">
-        <div class="card-box">
-            <h2>Entes Vinculados</h2>
-            <p>Conoce las instituciones, coordinaciones regionales y organizaciones aliadas que integran nuestra red de trabajo articulado en el estado Zulia.</p>
+        <div class="card">
+            <h1>Entes Adscritos y Aliados</h1>
+            <p>Fames Zulia forma parte de un sistema articulado de organizaciones públicas y misiones sociales orientadas a garantizar la protección integral de la juventud y la comunidad:</p>
+            
+            <ul class="entes-list">
+                <li><b>Gran Misión Venezuela Joven:</b> Articulación directa a través del Vértice #4: "Vamos a Cuidarnos" (Salud, Actividad Física y Deporte).</li>
+                <li><b>Universidad de las Ciencias de la Salud "Hugo Chávez Frías" (UCS):</b> Formación y enlace con profesionales médicos integrales comunitarios.</li>
+                <li><b>Ministerio del Poder Popular para la Salud (MPPS):</b> Rectoría y lineamientos de protocolos epidemiológicos y asistenciales.</li>
+            </ul>
         </div>
     </div>
 
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav-menu').classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
